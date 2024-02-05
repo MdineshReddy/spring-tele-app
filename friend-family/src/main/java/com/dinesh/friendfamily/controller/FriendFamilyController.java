@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class FriendFamilyController {
@@ -20,4 +22,12 @@ public class FriendFamilyController {
         LOGGER.info("Creation request for customer "+phoneNo+" with data "+ friendDTO);
         friendService.saveFriend(phoneNo, friendDTO);
     }
+
+
+    @GetMapping("/customers/{phoneNo}/friends")
+    public List<Long> getFriends(@PathVariable Long phoneNo) {
+        LOGGER.info("Get request for customer friends:  "+phoneNo);
+        return friendService.getSpecificFriends(phoneNo);
+    }
+
 }

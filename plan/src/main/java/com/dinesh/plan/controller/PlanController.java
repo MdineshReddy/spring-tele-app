@@ -29,5 +29,7 @@ public class PlanController {
     public PlanDTO getPlan(@PathVariable("planId") Integer planId) {
         return planService.getPlan(planId);
     }
+
+
 }
 

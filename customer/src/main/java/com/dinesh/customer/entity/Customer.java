@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -29,12 +27,7 @@ public class Customer {
     @Column(nullable = false, length = 1)
     char gender;
 
-    @OneToOne(cascade= CascadeType.REFRESH)
-    @JoinColumn(name="plan_id")
-    Plan plan;
-
-    @OneToMany(cascade=CascadeType.MERGE)
-    @JoinColumn(name="phone_no")
-    List<FriendFamily> friends=new ArrayList<>();
+    @Column(name = "plan_id", nullable = false)
+    int planId;
 
 }
