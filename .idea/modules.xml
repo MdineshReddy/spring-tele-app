@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/InfyTelMS.iml" filepath="$PROJECT_DIR$/.idea/InfyTelMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calldetails/calldetails.iml" filepath="$PROJECT_DIR$/calldetails/calldetails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customer/customer.iml" filepath="$PROJECT_DIR$/customer/customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/friend-family/friend-family.iml" filepath="$PROJECT_DIR$/friend-family/friend-family.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plan/plan.iml" filepath="$PROJECT_DIR$/plan/plan.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="plan" />
+        <module name="friend-family" />
+        <module name="customer" />
+        <module name="calldetails" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="calldetails" target="17" />
+      <module name="customer" target="17" />
+      <module name="friend-family" target="17" />
+      <module name="plan" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="calldetails" options="-parameters" />
+      <module name="customer" options="-parameters" />
+      <module name="friend-family" options="-parameters" />
+      <module name="plan" options="-parameters" />
+    </option>
+  </component>
+</project>
