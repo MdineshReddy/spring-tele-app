@@ -1,0 +1,13 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: CallDetailsMS
+  cloud:
+    consul:
+      config:
+        enabled: true
+        prefix: config
+        defaultContext: application
+        profileSeparator: '::'
+        format: YAML

@@ -1,0 +1,121 @@
+STEP: 1
+*******
+Run Below Command From the folder where consul.exe is present:
+consul agent -server -bootstrap-expect=1 -data-dir=consul-data -ui -bind=172.22.240.1
+
+STEP 2:
+*******
+Access Consul UI at: http://localhost:8500/ui
+
+STEP 3:
+*******
+Add the configuration data as ket/value pairs
+
+First add common configuration data for all projects:
+
+Key: config/application/data
+Value (in YAML):
+spring:
+ datasource:
+  driverClassName: com.mysql.cj.jdbc.Driver
+  username: root
+  password: 8187819188
+ jpa:
+  hibernate:
+  ddl-auto: update
+
+Now you can remove these from application.properties in all projects
+
+STEP 4:
+*******
+Now for the sql uri, we have to create separate key value pair for each project.
+
+key should be as: config/<spring.application.name>/data
+
+So for calldetails:
+key: config/CallDetailsMS/data
+Value (in YAML):
+spring:
+ datasource:
+  url: jdbc:mysql://localhost/infytel_calldetails
+
+for customer:
+key: config/CustomerMS/data
+Value (in YAML):
+spring:
+ datasource:
+  url: jdbc:mysql://localhost/infytel_customer
+
+for friend-family:
+key: config/FriendMS/data
+Value (in YAML):
+spring:
+ datasource:
+  url: jdbc:mysql://localhost/infytel_friend_family
+
+for plan:
+key: config/PlanMS/data
+Value (in YAML):
+spring:
+ datasource:
+  url: jdbc:mysql://localhost/infytel_plan
+
+STEP 5:
+******
+Add dependency for consul in all projects:
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-consul-config</artifactId>
+    <version>4.1.0</version>
+</dependency>
+
+Add spring-cloud.version in all projects:
+<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+
+STEP 6:
+**********
+Move the port number and application name in application to bootstrap.yml and add consul configurations:
+
+For calldetails > bootstrap.yml:
+
+server:
+  port: 9100
+spring:
+  application:
+    name: CallDetailsMS
+  cloud:
+    consul:
+      config:
+        enabled: true
+        prefix: config
+        defaultContext: application
+        profileSeparator: '::'
+        format: YAML
+
+
+For customer > bootstrap.yml:
+server:
+  port: 9200
+spring:
+  application:
+    name: CustomerMS
+  cloud:
+    consul:
+      config:
+        enabled: true
+        prefix: config
+        defaultContext: application
+        profileSeparator: '::'
+        format: YAML
+
+Now you can delete them from application.properties
+
+ERROR FIX:
+**********
+Add below dependency to all projects to fix error saying: No spring.config.import property has been defined
+
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-bootstrap</artifactId>
+	<version>4.1.1</version>
+</dependency>
