@@ -4,6 +4,8 @@ spring:
   application:
     name: CallDetailsMS
   cloud:
+    discovery:
+      hostname: localhost
     consul:
       config:
         enabled: true

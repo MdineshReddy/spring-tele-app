@@ -5,6 +5,8 @@ spring:
     name: PlanMS
   cloud:
     consul:
+      discovery:
+        hostname: localhost
       config:
         enabled: true
         prefix: config

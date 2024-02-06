@@ -8,6 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,11 +20,14 @@ import java.util.List;
 public class CustomerController {
     private static final Log LOGGER = LogFactory.getLog(CustomerController.class);
 
-    @Value("${plan.uri}")
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+
     String planUri;
 
 
-    @Value("${friend.uri}")
+
     String friendUri;
 
     @Autowired
@@ -44,9 +49,22 @@ public class CustomerController {
     public CustomerDTO getCustomerProfile(@PathVariable Long phoneNo) {
         LOGGER.info("Profile request for customer " + phoneNo);
         CustomerDTO customerDTO = customerService.getCustomerProfile(phoneNo);
-        PlanDTO planDTO = new RestTemplate().getForObject(planUri + customerDTO.getCurrentPlan().getPlanId(), PlanDTO.class);
+
+        List<ServiceInstance> listOfPlanInstances = discoveryClient.getInstances("PlanMS");
+
+        if(listOfPlanInstances!=null && !listOfPlanInstances.isEmpty()){
+            planUri = listOfPlanInstances.get(0).getUri().toString();
+        }
+
+        List<ServiceInstance> listOfFriendsInstances = discoveryClient.getInstances("FriendMS");
+
+        if(listOfFriendsInstances!=null && !listOfFriendsInstances.isEmpty()){
+            friendUri = listOfFriendsInstances.get(0).getUri().toString();
+        }
+
+        PlanDTO planDTO = new RestTemplate().getForObject(planUri + "/plans/" + customerDTO.getCurrentPlan().getPlanId(), PlanDTO.class);
         customerDTO.setCurrentPlan(planDTO);
-        List<Long> friendsAndFamily = new RestTemplate().getForObject(friendUri+customerDTO.getPhoneNo()+"/friends", List.class);
+        List<Long> friendsAndFamily = new RestTemplate().getForObject(friendUri+"/customers/"+customerDTO.getPhoneNo()+"/friends", List.class);
         customerDTO.setFriendAndFamily(friendsAndFamily);
         return customerDTO;
     }
